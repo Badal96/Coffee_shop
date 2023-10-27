@@ -1,11 +1,16 @@
+
+import 'package:coffee_shop/get_started_page.dart';
 import 'package:coffee_shop/helpers/colors.dart';
 import 'package:flutter/material.dart';
 
-import 'home_page.dart';
-
+import 'home_page/home_page.dart';
 void main() {
+ 
   runApp(const MyApp());
 }
+
+
+
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -17,10 +22,14 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
     
         colorScheme: ColorScheme.fromSeed(seedColor: Appcolors.appBrown),
-        scaffoldBackgroundColor: const Color(0xFFF9F9F9),
+      
         useMaterial3: true,
       ),
-      home: const HomePage(),
+      home: const GetStartedPage(),
+
+      routes:{
+        'homepage':(context) => const HomePage()
+      } ,
     );
   }
 }
