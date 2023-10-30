@@ -1,10 +1,13 @@
-import 'package:coffee_shop/coffee_detail.dart';
+import 'package:coffee_shop/helpers/text_style.dart';
 import 'package:coffee_shop/providers/filter_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
-import '../error_message.dart';
 import '../helpers/colors.dart';
 import '../models/coffee_model.dart';
+
+import '../pages/coffe_detail_page/coffee_detail.dart';
+import '../pages/error_message.dart';
 import '../providers/coffee_provider.dart';
 import '../providers/detial_provider.dart';
 
@@ -34,16 +37,19 @@ class CoffeeFilterItems extends StatelessWidget {
             }
 
             return Consumer<FilterProvider>(builder: (context, value, child) {
-              List<CoffeeModel> filteredList = value.selctedFilters.isEmpty
+              List<CoffeeModel> filteredList = provider.namedfilter == ''
                   ? List<CoffeeModel>.from(provider.coffees)
-                  : provider.coffees
-                      .where((subList) => value.selctedFilters.every(
-                          (element) => (subList.ingredients ?? [])
-                              .map((e) => e.toLowerCase())
-                              .contains(Ingredients.values[element].name
-                                  .toString()
-                                  .toLowerCase())))
-                      .toList();
+                  : List<CoffeeModel>.from(provider.nameFilteredCoffes);
+              if (value.selctedIngridients.isNotEmpty) {
+                List<String> selectedingridients = List.from(
+                    value.selctedIngridients.map((e) =>
+                        Ingredients.values[e].name.toString().toLowerCase()));
+
+                filteredList.removeWhere((element) => !selectedingridients
+                    .every((el) => (element.ingredients ?? [])
+                        .map((e) => e.toLowerCase())
+                        .contains(el))); //// filter
+              }
 
               return GridView.builder(
                 shrinkWrap: true,
@@ -85,7 +91,7 @@ class CoffeeFilterItems extends StatelessWidget {
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => ChangeNotifierProvider(
                 create: (context) => DetailProvider()..getCoffeeItem(id),
-                child: CoffeeDetial())));
+                child: const CoffeeDetial())));
       },
       child: Container(
         padding: const EdgeInsets.all(8),
@@ -108,19 +114,9 @@ class CoffeeFilterItems extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                      color: Color(0xff2F2D2C),
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16),
-                ),
+                Text(title, style: BoldTextStyle.bold16),
                 const SizedBox(height: 5),
-                Text(
-                  descirption,
-                  style:
-                      const TextStyle(color: Color(0xff9B9B9B), fontSize: 12),
-                ),
+                Text(descirption, style: BoldTextStyle.light12),
               ],
             ),
             Row(
@@ -128,10 +124,10 @@ class CoffeeFilterItems extends StatelessWidget {
               children: [
                 Text(
                   '\$ ${price.toString()}',
-                  style: const TextStyle(
+                  style: GoogleFonts.sora(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
-                      color: Color(0xff2F4B4E)),
+                      color: const Color(0xff2F4B4E)),
                 ),
                 IconButton(
                   onPressed: () {},

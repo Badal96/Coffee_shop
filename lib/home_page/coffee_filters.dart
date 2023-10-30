@@ -1,6 +1,6 @@
-
 import 'package:coffee_shop/models/coffee_model.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../helpers/colors.dart';
@@ -15,17 +15,12 @@ class CoffeFilter extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: Consumer<FilterProvider>(
         builder: (context2, provider, child) {
-         
-          return  Row(
+          return Row(
             children: [
-              
-              ...Ingredients.values.map((e) => _CoffeeFilterItem(
-                 text: e.name.toString(),
-                index: e.index,
-                context:context
-              ),)
-
-           
+              ...Ingredients.values.map(
+                (e) => _CoffeeFilterItem(
+                    text: e.name.toString(), index: e.index, context: context),
+              )
             ],
           );
         },
@@ -35,7 +30,8 @@ class CoffeFilter extends StatelessWidget {
 }
 
 class _CoffeeFilterItem extends StatelessWidget {
-  const _CoffeeFilterItem({required this.text, required this.index ,required this.context});
+  const _CoffeeFilterItem(
+      {required this.text, required this.index, required this.context});
   final BuildContext context;
   final int index;
   final String text;
@@ -55,7 +51,7 @@ class _CoffeeFilterItem extends StatelessWidget {
         child: Center(
             child: Text(
           text,
-          style: TextStyle(
+          style: GoogleFonts.sora(
               fontSize: 14, color: selected ? Colors.white : Colors.black),
         )),
       ),

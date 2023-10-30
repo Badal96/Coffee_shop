@@ -17,7 +17,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int seletedNavIndex = 0;
-
+  final myController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -34,13 +34,22 @@ class _HomePageState extends State<HomePage> {
         resizeToAvoidBottomInset: false,
         backgroundColor: const Color(0xFFF9F9F9),
         extendBodyBehindAppBar: true,
-        bottomNavigationBar: SizedBox(
-          height: 99,
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                offset: Offset(0, -10),
+                blurRadius: 24,
+                color: Color.fromRGBO(228, 228, 228, 0.25),
+              ),
+            ],
+          ),
+          height: 70,
           child: ClipRRect(
             borderRadius: BorderRadius.circular(18),
             child: BottomNavigationBar(
                 elevation: 0,
-                backgroundColor: const Color(0xffF1F1F1),
+                backgroundColor: Colors.white,
                 type: BottomNavigationBarType.fixed,
                 showSelectedLabels: false,
                 showUnselectedLabels: false,
@@ -124,24 +133,17 @@ class _HomePageState extends State<HomePage> {
               height: 280,
               decoration: const BoxDecoration(
                 gradient: LinearGradient(
-                    transform: GradientRotation(241),
-                    stops: [
-                      0,
-                      93.23,
-                      99.48
-                    ],
-                    colors: [
-                      Color(0xff131313),
-                      Color(0xff313131),
-                      Color(0xFF313131)
-                    ]),
+                  tileMode: TileMode.repeated,
+                  begin: FractionalOffset.topRight,
+                  end: FractionalOffset.bottomLeft,
+                  colors: [
+                    Color(0xFF131313),
+                    Color(0xFF313131),
+                    Color(0xFF313131),
+                  ],
+                  stops: [0.0, 0.9323, 0.9948],
+                ),
               ),
-              child: Column(children: [
-                Expanded(
-                  flex: 35,
-                  child: Container(),
-                )
-              ]),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 128, left: 30, right: 30)
@@ -153,21 +155,28 @@ class _HomePageState extends State<HomePage> {
                         color: const Color(0xFF313131),
                         borderRadius: BorderRadius.circular(12)),
                     height: 52,
-                    child: TextField(
-                      style: TextStyle(
-                          color: Appcolors.appTextLightBlack,
-                          decoration: TextDecoration.none),
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          prefixIcon:
-                              Image.asset('assets/icons/search_icon.png'),
-                          hintStyle: TextStyle(
-                              color: Appcolors.appTextLightBlack, fontSize: 14),
-                          hintText: 'Search coffee',
-                          suffixIcon: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset('assets/icons/filter.png'),
-                          )),
+                    child: Consumer<CoffeProvider>(
+                      builder: (context, provder, child) => TextField(
+                        onChanged: (value) => provder.filterWithNamed(value),
+                        style: GoogleFonts.sora(
+                            decorationThickness: 0,
+                            color: Colors.white,
+                            decoration: TextDecoration.none),
+                        decoration: InputDecoration(
+                            border: InputBorder.none,
+                            prefixIcon:
+                                Image.asset('assets/icons/search_icon.png'),
+                            hintStyle: TextStyle(
+                                color: Appcolors.appTextLightBlack,
+                                fontSize: 14),
+                            hintText: 'Search coffee',
+                            suffixIcon: IconButton(
+                              onPressed: () {},
+                              icon: Image.asset(
+                                'assets/icons/filter.png',
+                              ),
+                            )),
+                      ),
                     ),
                   ),
                   const SizedBox(
@@ -216,9 +225,3 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 }
-
-/// -================
-
-
-
-
