@@ -17,17 +17,21 @@ class CoffeeModel {
         ingredients!.add(e.toString());
       });
     }
+
     image = json['image'];
-    id = json['id'];
+
+    id = !(json['id'].runtimeType == int)
+        ? id = int.parse(json['id'])
+        : json['id'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['description'] = this.description;
-    data['ingredients'] = this.ingredients;
-    data['image'] = this.image;
-    data['id'] = this.id;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['description'] = description;
+    data['ingredients'] = ingredients;
+    data['image'] = image;
+    data['id'] = id;
     return data;
   }
 }

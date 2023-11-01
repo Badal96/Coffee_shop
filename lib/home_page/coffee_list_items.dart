@@ -3,11 +3,12 @@ import 'package:coffee_shop/providers/filter_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import '../error_message.dart';
 import '../helpers/colors.dart';
 import '../models/coffee_model.dart';
 
 import '../pages/coffe_detail_page/coffee_detail.dart';
-import '../pages/error_message.dart';
+
 import '../providers/coffee_provider.dart';
 import '../providers/detial_provider.dart';
 

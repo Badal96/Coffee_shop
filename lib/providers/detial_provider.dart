@@ -4,28 +4,43 @@ import '../htttp_requests.dart';
 import '../models/coffee_model.dart';
 
 class DetailProvider extends ChangeNotifier {
- 
- CoffeeModel? singlecoffee ;
+  CoffeeModel? singlecoffee;
   bool loading = false;
   String selectedSize = 'medium';
+  int orderCount = 1;
+  double price = 4.53;
+  double deliveryFee = 1;
+  String deliverMethod = 'Deliver';
 
-   void  changesize (String text) {
-
-  switch (text) {
-    case 'S':
-      selectedSize = 'small';
+  void changeDeliverMethod(String delivermethod) {
+    if (deliverMethod == delivermethod) {
+      return;
+    }
+    if (delivermethod == 'Pick up') {
+      deliverMethod = 'Pick up';
       notifyListeners();
-      break;
-      case 'M':
-      selectedSize = 'medium';
+    }
+    if (delivermethod == 'Deliver') {
+      deliverMethod = 'Deliver';
       notifyListeners();
-      break;
-      case 'L' :
-      selectedSize = 'large';
-      notifyListeners();
-      break;
+    }
   }
-  
+
+  void changesize(String text) {
+    switch (text) {
+      case 'S':
+        selectedSize = 'small';
+        notifyListeners();
+        break;
+      case 'M':
+        selectedSize = 'medium';
+        notifyListeners();
+        break;
+      case 'L':
+        selectedSize = 'large';
+        notifyListeners();
+        break;
+    }
   }
 
   Future<void> getCoffeeItem(int id) async {
@@ -33,9 +48,19 @@ class DetailProvider extends ChangeNotifier {
     notifyListeners();
 
     final result = await HttpRequests().getSingleProducts(id); // call api
-    
-     singlecoffee = CoffeeModel.fromJson(result);  
+
+    singlecoffee = CoffeeModel.fromJson(result);
     loading = false;
+    notifyListeners();
+  }
+
+  void addOrderCount() {
+    orderCount++;
+    notifyListeners();
+  }
+
+  void subtractCount() {
+    if (orderCount > 1) orderCount--;
     notifyListeners();
   }
 }

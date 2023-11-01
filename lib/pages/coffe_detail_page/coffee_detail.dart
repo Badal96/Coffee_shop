@@ -1,6 +1,7 @@
 import 'package:coffee_shop/helpers/colors.dart';
 import 'package:coffee_shop/helpers/text_style.dart';
 import 'package:coffee_shop/pages/coffe_detail_page/coffe_body.dart';
+import 'package:coffee_shop/pages/order_page/order_page.dart';
 import 'package:coffee_shop/providers/detial_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,10 +22,9 @@ class _CoffeeDetialState extends State<CoffeeDetial> {
         backgroundColor: const Color(0xFFFFFFFF),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          titleSpacing: -9,
           backgroundColor: Colors.transparent,
           title: Padding(
-            padding: const EdgeInsets.only(top: 16.0, left: 30, right: 30),
+            padding: const EdgeInsets.only(top: 16.0, right: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -94,7 +94,11 @@ class _CoffeeDetialState extends State<CoffeeDetial> {
                   padding:
                       const EdgeInsets.only(top: 16, bottom: 43, right: 30.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => OrderPage(provider: coffeeDetial),
+                      ));
+                    },
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(16)),

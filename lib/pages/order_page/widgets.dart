@@ -52,20 +52,28 @@ Widget editadress(String text, ImageProvider img) {
   }
 }
 
-Widget deliverMethod(bool isSelected) {
+Widget deliverMethod(
+    String deliverMethod, String chosed, void Function(String) ontap) {
+  bool isSelected = deliverMethod == chosed;
+
   return Expanded(
-    child: Container(
-      height: 40,
-      decoration: BoxDecoration(
-          color: isSelected ? Appcolors.appBrown : const Color(0xffF2F2F2),
-          borderRadius: BorderRadius.circular(10)),
-      child: Center(
-        child: Text(
-          isSelected ? 'Diliver' : 'Pick Up',
-          style: GoogleFonts.sora(
-              fontSize: 16,
-              fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
-              color: isSelected ? Colors.white : Appcolors.appBoldTextBlack),
+    child: GestureDetector(
+      onTap: () {
+        ontap(deliverMethod);
+      },
+      child: Container(
+        height: 40,
+        decoration: BoxDecoration(
+            color: isSelected ? Appcolors.appBrown : const Color(0xffF2F2F2),
+            borderRadius: BorderRadius.circular(10)),
+        child: Center(
+          child: Text(
+            deliverMethod,
+            style: GoogleFonts.sora(
+                fontSize: 16,
+                fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                color: isSelected ? Colors.white : Appcolors.appBoldTextBlack),
+          ),
         ),
       ),
     ),
