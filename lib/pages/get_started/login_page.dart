@@ -1,6 +1,7 @@
 import 'package:coffee_shop/providers/user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 
 class LoginPage extends StatelessWidget {
   final TextEditingController _usernameController = TextEditingController();
@@ -11,6 +12,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserdataProvider singinprovder = Provider.of<UserdataProvider>(context);
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -44,25 +46,32 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Consumer<UserdataProvider>(
-            builder: (context, value, child) => ElevatedButton(
-              onPressed: () async {
-                await value.login(
-                    _usernameController.text, _passwordController.text);
-                // if (value.errormeasge != '') {
-                //   QuickAlert.show(
-                //       context: context,
-                //       type: QuickAlertType.error,
-                //       text: value.errormeasge);
-                // }
+          SizedBox(
+            width: 180,
+            height: 45,
+            child: ElevatedButton(
+              onPressed: () {
+                singinprovder.login(_usernameController.text,
+                    _passwordController.text, context);
               },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20.0),
                 ),
               ),
-              child: const Text('Login'),
+              child: const Text('Sign in'),
             ),
+          ),
+          const SizedBox(
+            height: 25,
+          ),
+          SignInButton(
+            Buttons.google,
+            text: "Sign up with Google",
+            onPressed: () {
+              singinprovder.googleSignin(
+                  _usernameController.text, _passwordController.text, context);
+            },
           ),
           TextButton(
               onPressed: () {

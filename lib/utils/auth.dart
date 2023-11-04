@@ -1,3 +1,4 @@
+import 'package:coffee_shop/utils/firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -14,7 +15,7 @@ class Auth {
 
   Stream<User?> get authStateChnages => _firebaseAeuth.authStateChanges();
 
-  Future googleSignin() async {
+  Future googleSignin({required String email, required String password}) async {
     final googleuser = await _googleauth.signIn();
 
     if (googleuser == null) return;
@@ -25,6 +26,11 @@ class Auth {
     final credential = GoogleAuthProvider.credential(
         accessToken: gauth.accessToken, idToken: gauth.idToken);
     await _firebaseAeuth.signInWithCredential(credential);
+    final alrdyaUser = await FsStore().userLocationData();
+    if (alrdyaUser == null) {
+      await FsStore()
+          .adduserdata('no location chosed.', '', '', [40.7942, 43.84528]);
+    }
   }
 
   Future<void> signin({required String email, required String password}) async {
@@ -38,6 +44,8 @@ class Auth {
   }) async {
     await _firebaseAeuth.createUserWithEmailAndPassword(
         email: email, password: password);
+    await FsStore()
+        .adduserdata('location not chosed', '', '', [40.7942, 43.84528]);
   }
 
   Future<void> signOut() async {

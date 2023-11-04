@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Appcolors.appBrown),
         useMaterial3: true,
@@ -41,15 +42,16 @@ class MyApp extends StatelessWidget {
             create: (context) => FilterProvider(),
           ),
           ChangeNotifierProvider<UserdataProvider>(
-            create: (context) => UserdataProvider(),
-          ),
+              create: (context) => UserdataProvider()..getuser()),
           ChangeNotifierProvider<FavouritListProvider>(
             create: (context) => FavouritListProvider(),
           ),
         ],
         builder: (context, child) => const GetStartedPage(),
       ),
-      routes: {'homepage': (context) => const HomePage()},
+      routes: {
+        'homepage': (context) => const HomePage(),
+      },
     );
   }
 }

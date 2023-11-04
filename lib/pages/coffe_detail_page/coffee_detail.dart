@@ -3,18 +3,15 @@ import 'package:coffee_shop/helpers/text_style.dart';
 import 'package:coffee_shop/pages/coffe_detail_page/coffe_body.dart';
 import 'package:coffee_shop/pages/order_page/order_page.dart';
 import 'package:coffee_shop/providers/detial_provider.dart';
+import 'package:coffee_shop/providers/user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
-class CoffeeDetial extends StatefulWidget {
-  const CoffeeDetial({super.key});
+class CoffeeDetial extends StatelessWidget {
+  final UserdataProvider provider;
+  const CoffeeDetial({super.key, required this.provider});
 
-  @override
-  State<CoffeeDetial> createState() => _CoffeeDetialState();
-}
-
-class _CoffeeDetialState extends State<CoffeeDetial> {
   @override
   Widget build(BuildContext context) {
     DetailProvider coffeeDetial = Provider.of<DetailProvider>(context);
@@ -52,7 +49,7 @@ class _CoffeeDetialState extends State<CoffeeDetial> {
           ),
         ),
         bottomNavigationBar: Container(
-          height: 121,
+          height: 87,
           decoration: const BoxDecoration(
               boxShadow: [
                 BoxShadow(
@@ -92,11 +89,14 @@ class _CoffeeDetialState extends State<CoffeeDetial> {
                 flex: 247,
                 child: Padding(
                   padding:
-                      const EdgeInsets.only(top: 16, bottom: 43, right: 30.0),
+                      const EdgeInsets.only(top: 16, bottom: 9, right: 30.0),
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => OrderPage(provider: coffeeDetial),
+                        builder: (context) => OrderPage(
+                          provider: coffeeDetial,
+                          userdata: provider,
+                        ),
                       ));
                     },
                     style: ElevatedButton.styleFrom(

@@ -37,9 +37,9 @@ class CoffeeModel {
 }
 
 enum Ingredients {
+  coffee,
+  sugar,
   espresso,
   milk,
   chocolate,
-  coffee,
-  panela,
 }

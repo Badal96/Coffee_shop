@@ -17,6 +17,9 @@ class CoffeFilter extends StatelessWidget {
         builder: (context2, provider, child) {
           return Row(
             children: [
+              const SizedBox(
+                width: 30,
+              ),
               ...Ingredients.values.map(
                 (e) => _CoffeeFilterItem(
                     text: e.name.toString(), index: e.index, context: context),

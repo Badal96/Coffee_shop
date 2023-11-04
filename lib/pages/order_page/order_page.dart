@@ -1,5 +1,7 @@
+import 'package:coffee_shop/delivery_page.dart';
 import 'package:coffee_shop/helpers/colors.dart';
 import 'package:coffee_shop/pages/order_page/order_page_body.dart';
+import 'package:coffee_shop/providers/user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -7,8 +9,9 @@ import 'package:provider/provider.dart';
 import '../../providers/detial_provider.dart';
 
 class OrderPage extends StatelessWidget {
-  const OrderPage({super.key, required this.provider});
+  const OrderPage({super.key, required this.provider, required this.userdata});
   final DetailProvider provider;
+  final UserdataProvider userdata;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +23,7 @@ class OrderPage extends StatelessWidget {
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             title: Container(
-              padding: const EdgeInsets.only(top: 16, right: 35),
+              padding: const EdgeInsets.only(top: 16, right: 60),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -136,7 +139,13 @@ class OrderPage extends StatelessWidget {
                             padding: const EdgeInsets.only(
                                 left: 30.0, top: 16, bottom: 9, right: 30),
                             child: ElevatedButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => DeliverPage(
+                                        userlocatin: List<double>.from(
+                                            userdata.userlocation![
+                                                'user_location_lat&long']))));
+                              },
                               style: ElevatedButton.styleFrom(
                                   backgroundColor: Appcolors.appBrown,
                                   shape: const RoundedRectangleBorder(
@@ -159,7 +168,9 @@ class OrderPage extends StatelessWidget {
               ],
             ),
           ),
-          body: const OrderPageBody()),
+          body: OrderPageBody(
+            userdata: userdata,
+          )),
     );
   }
 }

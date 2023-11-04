@@ -1,23 +1,27 @@
 import 'package:coffee_shop/pages/order_page/widgets.dart';
 import 'package:coffee_shop/providers/detial_provider.dart';
+import 'package:coffee_shop/providers/user_data_provider.dart';
+import 'package:coffee_shop/update_userlocation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../helpers/text_style.dart';
 
 class OrderPageBody extends StatelessWidget {
-  const OrderPageBody({super.key});
+  final UserdataProvider userdata;
+  const OrderPageBody({super.key, required this.userdata});
 
   @override
   Widget build(BuildContext context) {
+    const padding = EdgeInsets.symmetric(horizontal: 30);
     return Consumer<DetailProvider>(
-      builder: (context, value, child) => SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
+      builder: (context, coffedetail, child) => SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30),
+              child: Container(
                 margin: const EdgeInsets.only(top: 28),
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
@@ -25,55 +29,82 @@ class OrderPageBody extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14)),
                 child: Row(
                   children: [
-                    deliverMethod('Deliver', value.deliverMethod,
-                        value.changeDeliverMethod),
-                    deliverMethod('Pick up', value.deliverMethod,
-                        value.changeDeliverMethod)
+                    deliverMethod('Deliver', coffedetail.deliverMethod,
+                        coffedetail.changeDeliverMethod),
+                    deliverMethod('Pick up', coffedetail.deliverMethod,
+                        coffedetail.changeDeliverMethod)
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 28,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text('Delivery Address', style: BoldTextStyle.bold16),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    'JI.Kpg Sutoyo',
-                    style: BoldTextStyle.bold14,
-                  ),
-                  const SizedBox(
-                    height: 8,
-                  ),
-                  Text(
-                    'Kpg.Sutoyo No.620,Blizem,Tanjugbalai.',
-                    style: BoldTextStyle.light14,
-                  ),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
+            ),
+            const SizedBox(
+              height: 28,
+            ),
+            Padding(
+              padding: padding,
+              child: ChangeNotifierProvider<UserdataProvider>.value(
+                value: userdata,
+                child: Consumer<UserdataProvider>(
+                    builder: (context, value, child) {
+                  var location = value.userlocation ??
+                      {
+                        'user_location_name': {
+                          'country': 'location not chosed',
+                          'city': '',
+                          'adress': ''
+                        }
+                      };
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      editadress('Edit address',
-                          const AssetImage('assets/icons/edit.png')),
+                      Text('Delivery Address', style: BoldTextStyle.bold16),
                       const SizedBox(
-                        width: 8,
+                        height: 16,
                       ),
-                      editadress('Add Note',
-                          const AssetImage('assets/icons/add_note.png'))
+                      Text(
+                        location['user_location_name']['adress'],
+                        style: BoldTextStyle.bold14,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        '${location['user_location_name']['adress']}, ${location['user_location_name']['country']}, ${location['user_location_name']['city']}',
+                        style: BoldTextStyle.light14,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              showDialogFunc(context, value.editUserlocation);
+                            },
+                            child: editadress('Edit address',
+                                const AssetImage('assets/icons/edit.png')),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          editadress('Add Note',
+                              const AssetImage('assets/icons/add_note.png'))
+                        ],
+                      ),
                     ],
-                  ),
-                ],
+                  );
+                }),
               ),
-              Container(
-                  height: 1,
-                  margin: const EdgeInsets.symmetric(vertical: 20),
-                  color: const Color(0xffEAEAEA)),
-              Row(
+            ),
+            Container(
+                height: 1,
+                margin:
+                    const EdgeInsets.symmetric(vertical: 20, horizontal: 30),
+                color: const Color(0xffEAEAEA)),
+            Padding(
+              padding: padding,
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Row(
@@ -84,7 +115,8 @@ class OrderPageBody extends StatelessWidget {
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             image: DecorationImage(
-                                image: NetworkImage(value.singlecoffee!.image!),
+                                image: NetworkImage(
+                                    coffedetail.singlecoffee!.image!),
                                 fit: BoxFit.cover)),
                       ),
                       const SizedBox(
@@ -94,11 +126,11 @@ class OrderPageBody extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            value.singlecoffee!.title!,
+                            coffedetail.singlecoffee!.title!,
                             style: BoldTextStyle.bold16,
                           ),
                           Text(
-                            value.singlecoffee!.ingredients![0],
+                            coffedetail.singlecoffee!.ingredients![0],
                             style: BoldTextStyle.light12,
                           )
                         ],
@@ -112,7 +144,7 @@ class OrderPageBody extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            value.subtractCount();
+                            coffedetail.subtractCount();
                           },
                           child: Container(
                             height: 28,
@@ -128,12 +160,12 @@ class OrderPageBody extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          value.orderCount.toString(),
+                          coffedetail.orderCount.toString(),
                           style: BoldTextStyle.bold14,
                         ),
                         InkWell(
                           onTap: () {
-                            value.addOrderCount();
+                            coffedetail.addOrderCount();
                           },
                           child: Container(
                             height: 28,
@@ -153,55 +185,57 @@ class OrderPageBody extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  vertical: 20,
-                ),
-                height: 4,
-                color: const Color(0xffF4F4F4),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: 20,
               ),
-              Container(
-                margin: const EdgeInsets.only(bottom: 20),
-                height: 56,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(14),
-                    border:
-                        Border.all(width: 1, color: const Color(0xffEAEAEA))),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                          top: 16.0, bottom: 16, left: 16),
-                      child: Row(
-                        children: [
-                          Image.asset('assets/icons/Discount.png'),
-                          const SizedBox(
-                            width: 12,
-                          ),
-                          Text(
-                            '1 Discount is applied',
-                            style: BoldTextStyle.bold14,
-                          )
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          const EdgeInsets.only(right: 16, top: 18, bottom: 18),
-                      child: InkWell(
-                        onTap: () {},
-                        child: SizedBox(
-                          height: 20,
-                          width: 20,
-                          child: Image.asset('assets/icons/arrow_right.png'),
+              height: 4,
+              color: const Color(0xffF4F4F4),
+            ),
+            Container(
+              margin: const EdgeInsets.only(bottom: 20, left: 30, right: 30),
+              height: 56,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  border: Border.all(width: 1, color: const Color(0xffEAEAEA))),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(top: 16.0, bottom: 16, left: 16),
+                    child: Row(
+                      children: [
+                        Image.asset('assets/icons/Discount.png'),
+                        const SizedBox(
+                          width: 12,
                         ),
+                        Text(
+                          '1 Discount is applied',
+                          style: BoldTextStyle.bold14,
+                        )
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding:
+                        const EdgeInsets.only(right: 16, top: 18, bottom: 18),
+                    child: InkWell(
+                      onTap: () {},
+                      child: SizedBox(
+                        height: 20,
+                        width: 20,
+                        child: Image.asset('assets/icons/arrow_right.png'),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-              Column(
+            ),
+            Padding(
+              padding: padding,
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -211,12 +245,15 @@ class OrderPageBody extends StatelessWidget {
                   const SizedBox(
                     height: 16,
                   ),
-                  price('Price',
-                      (value.price * value.orderCount).toStringAsFixed(2)),
+                  price(
+                      'Price',
+                      (coffedetail.price * coffedetail.orderCount)
+                          .toStringAsFixed(2)),
                   const SizedBox(
                     height: 16,
                   ),
-                  price('Delivery Fee', value.deliveryFee.toStringAsFixed(2)),
+                  price('Delivery Fee',
+                      coffedetail.deliveryFee.toStringAsFixed(2)),
                   const SizedBox(
                     height: 16,
                   ),
@@ -229,12 +266,13 @@ class OrderPageBody extends StatelessWidget {
                   ),
                   price(
                       'Total Payment',
-                      (value.price * value.orderCount + value.deliveryFee)
+                      (coffedetail.price * coffedetail.orderCount +
+                              coffedetail.deliveryFee)
                           .toStringAsFixed(2))
                 ],
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

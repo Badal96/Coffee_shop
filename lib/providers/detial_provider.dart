@@ -1,6 +1,6 @@
+import 'package:coffee_shop/utils/htttp_requests.dart';
 import 'package:flutter/foundation.dart';
 
-import '../htttp_requests.dart';
 import '../models/coffee_model.dart';
 
 class DetailProvider extends ChangeNotifier {

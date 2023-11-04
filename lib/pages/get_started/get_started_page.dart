@@ -52,65 +52,68 @@ class _GetStartedPageState extends State<GetStartedPage> {
                         ),
                       ),
                     ),
-                    PageView(controller: _controler, children: [
-                      Container(
-                        margin: const EdgeInsets.only(left: 30, right: 30),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'Coffee so good,\n your taste buds\n will love it.',
-                              style: GoogleFonts.sora(
-                                  fontSize: 34,
-                                  fontWeight: FontWeight.w600,
-                                  color: Colors.white),
-                              textAlign: TextAlign.center,
-                            ),
-                            const SizedBox(
-                              height: 8,
-                            ),
-                            Text(
-                              'The best grain,the finest roast,the \n  powerful flavor.',
-                              style: GoogleFonts.sora(
-                                  fontSize: 14,
-                                  color: Appcolors.appTextLightBlack,
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 0.14),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 96,
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.only(top: 24, bottom: 9),
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      _controler.nextPage(
-                                          duration:
-                                              const Duration(milliseconds: 300),
-                                          curve: Curves.easeIn);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Appcolors.appBrown,
-                                        shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(16))),
-                                    child: Text('Get started',
-                                        style: GoogleFonts.sora(
-                                            fontSize: 16,
-                                            fontWeight: FontWeight.w600,
-                                            color: Colors.white))),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      LoginPage(
+                    PageView(
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: _controler,
-                      ),
-                      RegisterPage(controler: _controler)
-                    ])
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 30, right: 30),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Text(
+                                  'Coffee so good,\n your taste buds\n will love it.',
+                                  style: GoogleFonts.sora(
+                                      fontSize: 34,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(
+                                  height: 8,
+                                ),
+                                Text(
+                                  'The best grain,the finest roast,the \n  powerful flavor.',
+                                  style: GoogleFonts.sora(
+                                      fontSize: 14,
+                                      color: Appcolors.appTextLightBlack,
+                                      fontWeight: FontWeight.w400,
+                                      letterSpacing: 0.14),
+                                  textAlign: TextAlign.center,
+                                ),
+                                SizedBox(
+                                  width: double.infinity,
+                                  height: 96,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        top: 24, bottom: 9),
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          _controler.nextPage(
+                                              duration: const Duration(
+                                                  milliseconds: 300),
+                                              curve: Curves.easeIn);
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                            backgroundColor: Appcolors.appBrown,
+                                            shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16))),
+                                        child: Text('Get started',
+                                            style: GoogleFonts.sora(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white))),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          LoginPage(
+                            controller: _controler,
+                          ),
+                          RegisterPage(controler: _controler)
+                        ])
                   ],
                 ),
               ));
