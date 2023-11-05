@@ -15,18 +15,21 @@ void showDialogFunc(BuildContext context,
           mainAxisSize: MainAxisSize.min,
           children: [
             TextField(
+              textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(labelText: 'Country'),
               onChanged: (value) {
                 country = value;
               },
             ),
             TextField(
+              textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(labelText: 'City'),
               onChanged: (value) {
                 city = value;
               },
             ),
             TextField(
+              textCapitalization: TextCapitalization.words,
               decoration: const InputDecoration(labelText: 'Address'),
               onChanged: (value) {
                 address = value;

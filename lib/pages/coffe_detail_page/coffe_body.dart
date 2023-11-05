@@ -12,6 +12,7 @@ class CoffePageBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.of(context).size.height;
     DetailProvider coffeeDetial = Provider.of<DetailProvider>(context);
     return SingleChildScrollView(
       scrollDirection: Axis.vertical,
@@ -21,8 +22,8 @@ class CoffePageBody extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: const EdgeInsets.only(top: 20),
-              height: 226,
+              margin: const EdgeInsets.only(top: 64 - kToolbarHeight),
+              height: height * 226 / 788,
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
                   image: DecorationImage(
@@ -147,7 +148,7 @@ class CoffePageBody extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 12.0),
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   coffeSize(
                       isSelected: coffeeDetial.selectedSize == 'small',

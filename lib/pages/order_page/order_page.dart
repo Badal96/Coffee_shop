@@ -20,10 +20,11 @@ class OrderPage extends StatelessWidget {
       child: Scaffold(
           backgroundColor: Colors.white,
           appBar: AppBar(
+            scrolledUnderElevation: 0,
             automaticallyImplyLeading: false,
             backgroundColor: Colors.white,
             title: Container(
-              padding: const EdgeInsets.only(top: 16, right: 60),
+              padding: const EdgeInsets.only(right: 55),
               child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -142,6 +143,8 @@ class OrderPage extends StatelessWidget {
                               onPressed: () {
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) => DeliverPage(
+                                        adress: userdata.userlocation![
+                                            'user_location_name']['adress'],
                                         userlocatin: List<double>.from(
                                             userdata.userlocation![
                                                 'user_location_lat&long']))));

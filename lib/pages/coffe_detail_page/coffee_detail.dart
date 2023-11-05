@@ -3,6 +3,7 @@ import 'package:coffee_shop/helpers/text_style.dart';
 import 'package:coffee_shop/pages/coffe_detail_page/coffe_body.dart';
 import 'package:coffee_shop/pages/order_page/order_page.dart';
 import 'package:coffee_shop/providers/detial_provider.dart';
+import 'package:coffee_shop/providers/favourit_list_provider.dart';
 import 'package:coffee_shop/providers/user_data_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +11,9 @@ import 'package:provider/provider.dart';
 
 class CoffeeDetial extends StatelessWidget {
   final UserdataProvider provider;
-  const CoffeeDetial({super.key, required this.provider});
+  final FavouritListProvider favlist;
+  const CoffeeDetial(
+      {super.key, required this.provider, required this.favlist});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +21,11 @@ class CoffeeDetial extends StatelessWidget {
     return Scaffold(
         backgroundColor: const Color(0xFFFFFFFF),
         appBar: AppBar(
+          scrolledUnderElevation: 0,
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           title: Padding(
-            padding: const EdgeInsets.only(top: 16.0, right: 5),
+            padding: const EdgeInsets.only(right: 5),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -39,11 +43,23 @@ class CoffeeDetial extends StatelessWidget {
                       fontSize: 18,
                       fontWeight: FontWeight.w600),
                 ),
-                IconButton(
-                    iconSize: 24,
-                    onPressed: () {},
-                    icon:
-                        const ImageIcon(AssetImage('assets/icons/Heart2.png')))
+                ChangeNotifierProvider.value(
+                  value: favlist,
+                  child: Consumer<FavouritListProvider>(
+                    builder: (context, value, child) => IconButton(
+                      iconSize: 24,
+                      onPressed: () {
+                        favlist.addorRemove(coffeeDetial.singlecoffee!);
+                      },
+                      icon: const ImageIcon(
+                          AssetImage('assets/icons/Heart2.png')),
+                      color: favlist.favouritList
+                              .contains(coffeeDetial.singlecoffee)
+                          ? Appcolors.appBrown
+                          : Appcolors.appBoldTextBlack,
+                    ),
+                  ),
+                )
               ],
             ),
           ),

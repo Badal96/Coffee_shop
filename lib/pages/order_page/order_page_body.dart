@@ -4,7 +4,6 @@ import 'package:coffee_shop/providers/user_data_provider.dart';
 import 'package:coffee_shop/update_userlocation_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../helpers/text_style.dart';
 
 class OrderPageBody extends StatelessWidget {
@@ -22,7 +21,6 @@ class OrderPageBody extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30),
               child: Container(
-                margin: const EdgeInsets.only(top: 28),
                 padding: const EdgeInsets.all(4),
                 decoration: BoxDecoration(
                     color: const Color(0xFFF2F2F2),
@@ -143,6 +141,7 @@ class OrderPageBody extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
+                          borderRadius: BorderRadius.circular(20),
                           onTap: () {
                             coffedetail.subtractCount();
                           },
@@ -164,6 +163,7 @@ class OrderPageBody extends StatelessWidget {
                           style: BoldTextStyle.bold14,
                         ),
                         InkWell(
+                          borderRadius: BorderRadius.circular(20),
                           onTap: () {
                             coffedetail.addOrderCount();
                           },
